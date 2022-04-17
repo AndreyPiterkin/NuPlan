@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 const express = require('express');
 const User = require('./model/model.user.js')
 const app = express();
-const apiRoutes = require("./routes/userRoutes.js")
+const apiRoutes = require('./routes/apiRoutes.js');
 
 dotenv.config();
 

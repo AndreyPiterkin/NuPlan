@@ -10,6 +10,8 @@ router.post("/login", (req, res) => {
       .catch((err) => {
         res.status(401).json(err)
       });
+  } else {
+    res.status(401).json({message: "Fill out all fields"});
   }
 });
 
@@ -21,6 +23,8 @@ router.post("/signup", (req, res) => {
       }).catch((err) => {
         res.status(401).json(err);
       })
+  } else {
+    res.status(401).json({message: "Fill out all fields"});
   }
 });
 

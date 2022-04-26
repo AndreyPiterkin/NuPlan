@@ -2,6 +2,7 @@ const router = require("express").Router();
 const User = require("../model/model.user.js")
 const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv')
+const withAuth = require('../middle.js')
 dotenv.config();
 
 router.post("/login", (req, res) => {
@@ -35,4 +36,16 @@ router.post("/signup", (req, res) => {
   }
 });
 
+// require authentication for all routes below
+
+router.get("/:id", withAuth, (req, res) => {
+  User.getPlans(parseInt(req.params.id, 10))
+    .then((plans) => {
+      res.status(200).json(plans);
+    }).catch((err) => {
+      res.status(401).json(err);
+    })
+})
+
 module.exports = router;
+

@@ -20,6 +20,16 @@ const User = class {
         .catch((err) => reject({message: err})); 
     })
   }
+
+  static getPlans(uid) {
+    return new Promise((resolve, reject) => {
+      Queries.execute("call allPlans(?)", [uid], "No plans found.")
+        .then((rows) => {
+          resolve(rows)
+        })
+        .catch((err) => reject({message: err}));
+    });
+  }
 };
 
 module.exports = User

@@ -9,11 +9,16 @@ router.post("/login", (req, res) => {
   if (req.body.username && req.body.password) {
     User.authenticate(req.body.username, req.body.password)
       .then((user) => {
-        const payload = {uid: user.uid}
-        const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
-          expiresIn: '5h'
-        });
-        res.cookie('token', token, { httpOnly: true}).status(200).json({uid: user.uid})
+        if (user.uid) {
+          const payload = {uid: user.uid}
+          const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
+            expiresIn: '5h'
+          });
+          res.cookie('uid', user.uid, {maxAge: (1000 * 60 * 60 * 5)});
+          res.cookie('token', token, { httpOnly: true}).sendStatus(200);
+        } else {
+          res.sendStatus(401);
+        }
       })
       .catch((err) => {
         res.status(401).json(err)
